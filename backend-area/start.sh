@@ -33,9 +33,14 @@ else
     mv /tmp/nginx.conf /etc/nginx/nginx.conf
 fi
 
-# Exécuter les migrations
+# Exécuter les migrations (non-bloquant si DB pas disponible)
 echo "🗄️  Exécution des migrations..."
-php artisan migrate --force
+if php artisan migrate --force 2>/dev/null; then
+    echo "✅ Migrations exécutées avec succès"
+else
+    echo "⚠️  Impossible d'exécuter les migrations - vérifiez les variables DB_* dans Railway"
+    echo "⚠️  L'application continuera sans migrations - configurez la base de données pour un fonctionnement complet"
+fi
 
 # Mettre en cache la configuration
 echo "⚙️  Mise en cache de la configuration..."
