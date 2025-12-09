@@ -37,6 +37,10 @@ fi
 echo "🗄️  Exécution des migrations..."
 if php artisan migrate --force 2>/dev/null; then
     echo "✅ Migrations exécutées avec succès"
+    
+    # Exécuter les seeders en production
+    echo "🌱 Exécution des seeders..."
+    php artisan db:seed --class=ServicesSeeder --force 2>/dev/null || echo "⚠️  Seeders déjà exécutés ou erreur"
 else
     echo "⚠️  Impossible d'exécuter les migrations - vérifiez les variables DB_* dans Railway"
     echo "⚠️  L'application continuera sans migrations - configurez la base de données pour un fonctionnement complet"

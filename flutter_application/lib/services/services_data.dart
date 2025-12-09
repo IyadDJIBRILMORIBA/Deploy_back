@@ -20,18 +20,26 @@ class ServicesData {
   /// Récupérer tous les services disponibles depuis l'API
   static Future<List<ServiceModel>> getAllServices() async {
     final token = await AuthStorage.getToken();
+    debugPrint('[ServicesData] Token récupéré: ${token?.substring(0, 20)}...');
+    
     if (token == null) {
       throw Exception('Vous devez vous connecter pour voir les services');
     }
 
+    final url = '${BackendRoutes.baseUrl}${BackendRoutes.services}';
+    debugPrint('[ServicesData] GET request vers: $url');
+    
     final response = await http.get(
-      Uri.parse('${BackendRoutes.baseUrl}${BackendRoutes.services}'),
+      Uri.parse(url),
       headers: {
         'Authorization': 'Bearer $token',
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
     );
+
+    debugPrint('[ServicesData] Status code: ${response.statusCode}');
+    debugPrint('[ServicesData] Response body: ${response.body}');
 
     if (response.statusCode == 401) {
       throw Exception('Session expirée. Veuillez vous reconnecter.');
