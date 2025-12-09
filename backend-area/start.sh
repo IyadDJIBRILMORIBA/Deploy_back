@@ -10,6 +10,15 @@ mkdir -p storage/logs
 mkdir -p bootstrap/cache
 chmod -R 777 storage bootstrap/cache
 
+# Créer les dossiers temporaires Nginx avec les bonnes permissions
+mkdir -p /var/lib/nginx/tmp/client_body
+mkdir -p /var/lib/nginx/tmp/proxy
+mkdir -p /var/lib/nginx/tmp/fastcgi
+mkdir -p /var/lib/nginx/tmp/uwsgi
+mkdir -p /var/lib/nginx/tmp/scgi
+chown -R nobody:nobody /var/lib/nginx/tmp
+chmod -R 777 /var/lib/nginx/tmp
+
 # Créer le fichier .env depuis les variables d'environnement Railway
 if [ ! -f .env ]; then
     echo "📝 Création du fichier .env..."
