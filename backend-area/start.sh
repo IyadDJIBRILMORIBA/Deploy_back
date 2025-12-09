@@ -4,6 +4,12 @@ set -e
 
 echo "🚀 Démarrage de l'application Laravel sur Railway..."
 
+# Créer les dossiers nécessaires avec les bonnes permissions
+mkdir -p storage/framework/{sessions,views,cache}
+mkdir -p storage/logs
+mkdir -p bootstrap/cache
+chmod -R 777 storage bootstrap/cache
+
 # Créer le fichier .env depuis les variables d'environnement Railway
 if [ ! -f .env ]; then
     echo "📝 Création du fichier .env..."
@@ -40,6 +46,14 @@ php artisan view:cache
 # Optimiser l'application
 echo "⚡ Optimisation de l'application..."
 php artisan optimize
+
+# Vérifier que PHP-FPM peut démarrer
+echo "🔍 Test de configuration PHP-FPM..."
+php-fpm -t
+
+# Vérifier la configuration Nginx
+echo "🔍 Test de configuration Nginx..."
+nginx -t
 
 echo "✅ Configuration terminée!"
 echo "🌐 Démarrage des services..."
