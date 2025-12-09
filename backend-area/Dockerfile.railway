@@ -1,26 +1,24 @@
 # Dockerfile optimisé pour Railway
 FROM php:8.2-fpm-alpine
 
-# Installation des dépendances système
-RUN apk add --no-cache \
-    git \
-    curl \
-    libpng-dev \
-    oniguruma-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    libcurl \
-    nginx \
-    supervisor \
-    mysql-client \
-    nodejs \
-    npm
+    # Installation des dépendances système
+    RUN apk add --no-cache \
+        git \
+        curl \
+        curl-dev \
+        libpng-dev \
+        oniguruma-dev \
+        libxml2-dev \
+        zip \
+        unzip \
+        nginx \
+        supervisor \
+        mysql-client \
+        nodejs \
+        npm
 
-# Installation des extensions PHP
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd curl
-
-# Installation de Composer
+    # Installation des extensions PHP
+    RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd curl# Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Configuration Nginx
