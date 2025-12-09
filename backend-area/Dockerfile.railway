@@ -1,5 +1,5 @@
 # Dockerfile optimisé pour Railway
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 
     # Installation des dépendances système
     RUN apk add --no-cache \
