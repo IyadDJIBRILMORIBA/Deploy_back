@@ -305,9 +305,20 @@ class AuthController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
+            \Log::error('Google authentication exception', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+            ]);
+            
             return response()->json([
                 'message' => 'Google authentication failed',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'debug' => config('app.debug') ? [
+                    'line' => $e->getLine(),
+                    'file' => basename($e->getFile()),
+                ] : null,
             ], 500);
         }
     }
