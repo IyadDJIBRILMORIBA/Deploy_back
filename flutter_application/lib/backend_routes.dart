@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 class BackendRoutes {
   static String get baseUrl {
-    const url = "http://192.168.100.6:8000";
+    const String url = 'https://deployback-production-a207.up.railway.app';
     debugPrint("[BackendRoutes] Using base URL: $url");
     return url;
   }

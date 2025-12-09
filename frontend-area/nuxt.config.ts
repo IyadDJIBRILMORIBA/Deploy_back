@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: 'http://localhost:8000',
+      apiBase: 'https://deployback-production-a207.up.railway.app',
     },
   },
 })

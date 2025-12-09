@@ -61,9 +61,14 @@ class GoogleService implements ServiceInterface
             ];
 
             Log::info("[GoogleService] Appel API Gmail listUsersMessages...");
-            $messages = $gmailService->users_messages->listUsersMessages('me', $optParams);
-            Log::info("[GoogleService] Réponse API Gmail reçue");
-            
+            try {
+                $messages = $gmailService->users_messages->listUsersMessages('me', $optParams);
+                Log::info("[GoogleService] Réponse API Gmail reçue");
+            } catch (\Exception $e) {
+                Log::error("[GoogleService] Gmail API error: " . $e->getMessage());
+                return false;
+            }
+
             $messagesList = $messages->getMessages();
 
             if (empty($messagesList)) {

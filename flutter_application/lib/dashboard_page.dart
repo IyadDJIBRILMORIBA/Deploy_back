@@ -347,7 +347,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Bienvenue, ${widget.userName.split(' ')[0]} 👋',
+                          'Bienvenue, ${widget.userName.split(' ')[0]}',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,

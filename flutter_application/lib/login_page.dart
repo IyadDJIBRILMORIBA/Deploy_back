@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'backend_routes.dart';
 import 'dashboard_page.dart';
@@ -261,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 24),
                           Text(
-                            "Bon retour ! 👋",
+                            "Bon retour !",
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -513,27 +514,60 @@ class _LoginPageState extends State<LoginPage> {
               child: Container(
                 color: isDark ? const Color(0xFF0F172A) : Colors.white,
                 padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      "Pas de compte ? ",
-                      style: TextStyle(
-                        color: isDark ? Colors.grey.shade500 : const Color(0xFF6B7280),
-                        fontSize: 15,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Pas de compte ? ",
+                          style: TextStyle(
+                            color: isDark ? Colors.grey.shade500 : const Color(0xFF6B7280),
+                            fontSize: 15,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const RegisterPage()),
+                          ),
+                          child: const Text(
+                            "S'inscrire",
+                            style: TextStyle(
+                              color: Color(0xFF4F46E5),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const RegisterPage()),
-                      ),
-                      child: const Text(
-                        "S'inscrire",
+                    const SizedBox(height: 8),
+                    TextButton.icon(
+                      onPressed: () async {
+                        final url = "https://deployback-production-a207.up.railway.app";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Impossible d'ouvrir le lien")),
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.link, size: 16),
+                      label: const Text(
+                        'Backend: https://deployback-production-a207.up.railway.app',
                         style: TextStyle(
-                          color: Color(0xFF4F46E5),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: Color(0xFF6B7280),
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        backgroundColor: isDark ? const Color(0xFF1E293B) : const Color(0xFFF3F4F6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
