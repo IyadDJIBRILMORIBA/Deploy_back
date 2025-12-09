@@ -51,16 +51,15 @@ RUN composer dump-autoload --optimize --no-dev
 # Build des assets si nécessaire
 RUN if [ -f "vite.config.js" ]; then npm run build; fi
 
+# Rendre le script de démarrage exécutable
+RUN chmod +x /var/www/start.sh
+
 # Permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
-
-# Créer un script de démarrage
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
 
 # Exposer le port (Railway utilise la variable PORT)
 EXPOSE ${PORT:-8000}
 
 # Démarrer avec le script
-CMD ["/start.sh"]
+CMD ["/var/www/start.sh"]
